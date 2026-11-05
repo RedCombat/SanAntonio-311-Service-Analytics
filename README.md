@@ -1,18 +1,56 @@
-# SanAntonio-311-Service-Analytics
+# San Antonio 311 Service Call Machine Learning & Geospatial Clustering
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com)
+An end-to-end data science project analyzing City of San Antonio 311 municipal customer service records. The project extracts predictive signal from unstructured ticket descriptions, benchmarks machine learning classification models to forecast delayed service resolutions, and segments geographic call volumes using unsupervised spatial clustering.
 
-## Overview
-* **Dataset:** 311 Municipal Service Calls (90,000+ test records evaluated)
-* **Goal:** Replicate service classification methodology to predict ticket delays and cluster request volumes by location.
-* **Tech Stack:** Python, Pandas, Scikit-learn, Matplotlib, TF-IDF Vectorization
+---
+
+## Project Overview
+
+* **Dataset:** San Antonio 311 Municipal Service Calls (~450,000+ total historical records)
+* **Evaluation Split:** 80/20 train-test split resulting in **90,153 holdout test cases**
+* **Primary Tasks:**
+  1. **Text Feature Extraction & Classification:** Predict service ticket delays and categories from unstructured case descriptions (`Reason Name` + `Type Name`).
+  2. **Geospatial Clustering:** Cluster geographical coordinates across San Antonio into distinct municipal service zones using K-Means.
+* **Tech Stack:** Python, Pandas, NumPy, Scikit-learn, Matplotlib, TF-IDF Vectorization, (Optional: SQLite)
+
+---
 
 ## Methodology
-1. **Feature Engineering & NLP:** Combined textual fields (`Reason Name` + `Type Name`) and applied `TfidfVectorizer` (max 1,000 features) to extract predictive text features.
-2. **Modeling:** Trained and benchmarked Support Vector Classifier (`SVC`), `RandomForestClassifier`, and `DecisionTreeClassifier` using an 80/20 train-test split.
-3. **Geospatial Clustering:** Performed K-Means spatial clustering on coordinates to map the geographic distribution of city service requests.
 
-## Key Results
-* **Classification Accuracy:** Achieved **~84% overall accuracy** on the test split for request classification.
-* **Confusion Matrix:** Correctly flagged over 73,500 standard resolution cases while isolating delinquent resolution patterns.
-* Spatial plotting clearly delineates municipal boundaries and unpopulated/federal zones, showing distinct data voids over major federal installations (JBSA-Fort Sam Houston and Lackland Air Force Base) and natural reservoirs where city 311 services do not operate.
+### 1. Data Cleaning & Feature Engineering
+* Extracted and concatenated multi-field text descriptions:
+  $$\text{text\_input} = \text{Reason Name} + \text{" "} + \text{Type Name}$$
+* Processed text features using `TfidfVectorizer` (English stop words removed, top 1,000 max features).
+* Structured an **80/20 train-test split** (`random_state=42`) yielding **90,153 evaluation samples**.
+
+### 2. Supervised Modeling & Evaluation
+Trained and benchmarked three predictive classification architectures using Scikit-learn:
+* **Support Vector Classifier (SVC):** Linear kernel
+* **Random Forest Classifier:** 100 estimators, maximum depth of 20
+* **Decision Tree Classifier:** Maximum depth of 20
+
+#### Results & Confusion Matrix Analysis
+Evaluating the final model on the 90,153 holdout test cases produced the following confusion matrix:
+
+```text
+Confusion Matrix:
+[[73546    666]
+ [13765   2176]]
+```
+
+* **Overall Predictive Accuracy:** **83.99% (~84%)**
+  $$\text{Accuracy} = \frac{73,546 + 2,176}{90,153} = 83.99\%$$
+* **True Negatives:** 73,546 correctly classified standard/on-time resolutions.
+* **True Positives:** 2,176 correctly identified delayed resolutions.
+* **Class Imbalance Note:** The dataset displays a severe class imbalance characteristic of real-world municipal reporting (the vast majority of calls are resolved without systemic delays).
+
+---
+
+### 3. Geospatial K-Means Clustering ($k = 5$)
+* Extracted spatial coordinate features (`X Coordinate`, `Y Coordinate`) across the metropolitan area.
+* Applied **K-Means clustering** with $k = 5$ to partition municipal request volume into five geographic service sectors.
+
+#### Domain Insights & Municipal Exclusion Zones
+* **Federal Enclaves:** Plotting reveals distinct data voids corresponding to federal and military reservations—specifically **Joint Base San Antonio (JBSA) Fort Sam Houston** and **Lackland Air Force Base**—as well as regional reservoirs and municipal flood basins where city 311 services do not operate.
+* **Density Distribution:** Ticket density concentrates heavily along major transit corridors surrounding Downtown San Antonio, providing clear visual boundaries between municipal districts.
+* 
