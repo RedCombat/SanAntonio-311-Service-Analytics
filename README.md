@@ -6,12 +6,30 @@ An end-to-end data science project analyzing City of San Antonio 311 municipal c
 
 ## Project Overview
 
-* **Dataset:** San Antonio 311 Municipal Service Calls (~450,000+ total historical records)
-* **Evaluation Split:** 80/20 train-test split resulting in **90,153 holdout test cases**
-* **Primary Tasks:**
+- **Dataset:** San Antonio 311 Municipal Service Calls (~450,000+ total historical records)
+- **Evaluation Split:** 80/20 train-test split resulting in **90,153 holdout test cases**
+- **Primary Tasks:**
   1. **Text Feature Extraction & Classification:** Predict service ticket delays and categories from unstructured case descriptions (`Reason Name` + `Type Name`).
   2. **Geospatial Clustering:** Cluster geographical coordinates across San Antonio into distinct municipal service zones using K-Means.
-* **Tech Stack:** Python, Pandas, NumPy, Scikit-learn, Matplotlib, TF-IDF Vectorization, (Optional: SQLite)
+- **Tech Stack:** Python, Pandas, NumPy, Scikit-learn, Matplotlib, TF-IDF Vectorization
+
+---
+
+## Data Source
+
+- **Portal:** City of San Antonio, 311 All Service Calls ([Open Data SA](https://data.sanantonio.gov/dataset/311-all-service-calls))
+- **One-Click Export:** [ArcGIS CSV Download](https://opendata-cosagis.opendata.arcgis.com/api/download/v1/items/754d5490121e44b8b6f3712934b24839/csv?layers=0)
+- **Underlying API:** [ArcGIS FeatureServer](https://services.arcgis.com/g1fRTDLeMgspWrYp/ArcGIS/rest/services/311_All_Service_Calls/FeatureServer)
+
+*Note: The raw CSV (~100 MB+) is excluded from the Git repository. Use `download_data.py` to retrieve it locally.*
+
+---
+
+## How to Run
+
+1. Clone the repository and install dependencies:
+   ```bash
+   pip install -r requirements.txt
 
 ---
 
