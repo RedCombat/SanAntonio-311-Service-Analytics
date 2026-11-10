@@ -29,7 +29,22 @@ An end-to-end data science project analyzing City of San Antonio 311 municipal c
 
 1. Clone the repository and install dependencies:
    ```bash
+   git clone https://github.com/RedCombat/SanAntonio-311-Service-Analytics.git
+   cd SanAntonio-311-Service-Analytics
    pip install -r requirements.txt
+   ```
+
+2. **Download the dataset** (the ~100 MB+ raw CSV is not stored in the repo):
+   ```bash
+   python download_data.py
+   ```
+   This pulls the 311 All Service Calls CSV from the ArcGIS export linked in [Data Source](#data-source).
+
+3. **Open and run the notebook:**
+   ```bash
+   jupyter notebook SanAntonio311Final.ipynb
+   ```
+   Then choose **Run All** (Kernel → Restart & Run All). The notebook builds the TF-IDF features, trains and benchmarks the SVC, Random Forest, and Decision Tree models, prints the confusion matrix for the 90,153 holdout cases, and plots the K-Means (k=5) geographic clusters.
 
 ---
 
