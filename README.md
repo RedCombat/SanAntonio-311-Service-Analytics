@@ -43,7 +43,7 @@ An end-to-end data science project analyzing City of San Antonio 311 municipal c
 
 ### 1. Data Cleaning & Feature Engineering
 * Extracted and concatenated multi-field text descriptions:
-  $$\text{text\_input} = \text{Reason Name} + \text{" "} + \text{Type Name}$$
+  `text_input = Reason Name + " " + Type Name`
 * Processed text features using `TfidfVectorizer` (English stop words removed, top 1,000 max features).
 * Structured an **80/20 train-test split** (`random_state=42`) yielding **90,153 evaluation samples**.
 
